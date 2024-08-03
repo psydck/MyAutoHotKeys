@@ -28,7 +28,7 @@ Download(start_path, command_args){
     if (ErrorLevel = 1)
         MsgBox, 0, Status, File download was canceled! `n %url%, 30
     else {
-        run, yt-dl.exe %command_args% -P "%path%" --console-title "%url%"
+        run, yt-dl.exe %command_args% -P "%path%" --console-title "%url%", , Hide
         AppendDownloadHistoryFile(start_path "history.csv", path "," url)
     }
 
