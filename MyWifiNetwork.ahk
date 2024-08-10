@@ -1,9 +1,9 @@
 ; -------------------------------------------
 ; My Wifi Network Infomation
-; version 1.0
-; created 01/08/2024
+; created 01/08/2024 (version 2024.08.11)
 ; By Sizwe I. Mkhonza
 ; https://www.linkedin.com/in/sir-afrika/
+; gituser@192.168.1.103:~/my-code/ahk.git
 ; AHK Version 1.1.37.02
 ; -------------------------------------------
 
