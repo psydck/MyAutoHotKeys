@@ -24,4 +24,3 @@
 !v:: DownloadVideo(VIDEO_DIR)
 !q:: DownloadQualityVideo(VIDEO_DIR)
 !r:: ReDownloadVideoFiles(VIDEO_DIR)
-
