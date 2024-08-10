@@ -20,3 +20,4 @@ if (ErrorLevel = 1 or ErrorLevel = 2 or prompt = "")
 else 
 	send, man %prompt% | less {Enter}
 return
+
