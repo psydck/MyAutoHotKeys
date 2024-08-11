@@ -44,6 +44,7 @@ start_folder := "D:\Development"
     ; create main python script file
     python_start_file := "main.py"
     CreateCommonFile(project_folder, python_start_file)
+    CreateCommonFile(project_folder, "test_main.py")
 
     ; setup make
     SetupMake(project_folder, "Makefile", python_start_file, requirements_file)
