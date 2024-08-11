@@ -15,6 +15,8 @@ SendMode Input
 
 start_folder := "D:\Development"
 
+defualt_helpful_requirements := Array("rich", "pytest")
+
 
 ::.cpy:: ; Create Python Project
 
@@ -37,7 +39,7 @@ start_folder := "D:\Development"
 
     ; add requirements
     requirements_file := "requirements.txt"
-    CreateCommonFile(project_folder, requirements_file)
+    AddDefualtRequirements(project_folder, requirements_file)
     AddRequirements(project_folder, requirements_file)
     InstallRequirements(project_folder, requirements_file, virtualenv_folder)
 
@@ -79,6 +81,21 @@ IgnoreFile(ignore_file_or_folder, project_folder, ignore_file){
 CreateCommonFile(project_folder, file){
     file_path := project_folder "\" file
     FileAppend, , %file_path% 
+}
+
+AddDefualtRequirements(project_folder, requirements_file){
+    requirements_path := project_folder "\" requirements_file
+
+    Loop % defualt_helpful_requirements.Length()   
+    {
+        requirement := defualt_helpful_requirements[A_Index] 
+        MsgBox, 4, Python Helpful Requirement, Add this requirement? `n %requirement%, 
+        IfMsgBox Yes
+        {
+            FileAppend, %requirement% `n, %requirements_path% 
+        }
+        
+    }
 }
 
 AddRequirements(project_folder, requirements_file){
