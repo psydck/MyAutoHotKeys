@@ -1,100 +1,26 @@
-; -----------------------------------------------------------------------
-; Python Initial Project Creation Automation  [AHK]
+; ----------------------------------------------------------------------------------------------
+; Programming Project Initial Creation Automationed Script [utils]
 ; created 11/08/2024 (version 2024.08.11)
 ; By Sizwe I. Mkhonza
 ; https://www.linkedin.com/in/sir-afrika/
 ; https://github.com/psydck/MyAutoHotKeys
 ; AHK Version 1.1.37.02
-; -----------------------------------------------------------------------
+; ----------------------------------------------------------------------------------------------
 
-#SingleInstance Force
-SendMode Input
-
-#IfWinActive, ahk_exe WindowsTerminal.exe
+#include .\constants\devFiles.ahk
 
 
-start_folder := "D:\Development"
-
-defualt_helpful_requirements := Array("rich", "pytest")
-
-
-::.cpy:: ; Create Python Project
-
-    ; prompt user for python project folder
-    FileSelectFolder, project_folder, %start_folder%, 1, Setup Python Project Folder
-
-    if (ErrorLevel = 1 or ErrorLevel = 2) {
-        return
-    }
-
-    ; setup git
-    SetupGit(project_folder)
-    CreateCommonFile(project_folder, ".gitignore")
-    
-    ; setup virtual environment
-    virtualenv_folder := ".venv"
-    SetupVirtualEnvironment(project_folder, virtualenv_folder)
-    IgnoreFile(virtualenv_folder "\", project_folder, ".gitignore")
-    IgnoreFile(virtualenv_folder "\", project_folder, ".dockerignore")
-
-    ; add requirements
-    requirements_file := "requirements.txt"
-    AddDefualtRequirements(project_folder, requirements_file)
-    AddRequirements(project_folder, requirements_file)
-    InstallRequirements(project_folder, requirements_file, virtualenv_folder)
-
-    ; create python script files
-    python_start_file := "main.py"
-    CreateCommonFile(project_folder, python_start_file)
-    CreateCommonFile(project_folder, "test_main.py")
-    stash_py_file := "stash.py"
-    CreateCommonFile(project_folder, stash_py_file)
-    IgnoreFile(stash_py_file, project_folder, ".gitignore")
-    IgnoreFile(stash_py_file, project_folder, ".dockerignore")
-
-    ; setup make
-    SetupMake(project_folder, "Makefile", python_start_file, requirements_file)
-
-    ; setup docker
-    dockerfile := "dockerfile"
-    SetupDocker(project_folder, dockerfile, requirements_file, python_start_file)
-    IgnoreFile(".dockerignore", project_folder, ".dockerignore")
-    IgnoreFile(dockerfile, project_folder, ".dockerignore")
-
-return
-
-SetupGit(project_folder){
-    git_path := project_folder "\"
-    RunWait, powershell.exe $(git init %git_path%), , Hide
-}
-
-SetupVirtualEnvironment(project_folder, virtualenv_folder){
-    virtualenv_folder_path := project_folder "\" virtualenv_folder
-    RunWait, powershell.exe $(python -m virtualenv %virtualenv_folder_path% -p 3.12), , Hide
-}
-
-IgnoreFile(ignore_file_or_folder, project_folder, ignore_file){
-    ignore_file_path := project_folder "\" ignore_file 
-    FileAppend, %ignore_file_or_folder% `n, %ignore_file_path% 
-}
-
-CreateCommonFile(project_folder, file){
-    file_path := project_folder "\" file
-    FileAppend, , %file_path% 
-}
+; #A
 
 AddDefualtRequirements(project_folder, requirements_file){
     requirements_path := project_folder "\" requirements_file
-
-    Loop % defualt_helpful_requirements.Length()   
-    {
-        requirement := defualt_helpful_requirements[A_Index] 
-        MsgBox, 4, Python Helpful Requirement, Add this requirement? `n %requirement%, 
+    defualt_helpful_requirements := ["rich", "pytest"]
+    For index, requirement in defualt_helpful_requirements {
+        MsgBox, 4, Python Helpful Requirement, Add this useful requirement "%requirement%" ?, 
         IfMsgBox Yes
         {
             FileAppend, %requirement% `n, %requirements_path% 
         }
-        
     }
 }
 
@@ -115,6 +41,20 @@ AddRequirements(project_folder, requirements_file){
             }
         }
     }
+}
+
+; #C
+
+CreateCommonFile(project_folder, file){
+    file_path := project_folder "\" file
+    FileAppend, , %file_path% 
+}
+
+; #I
+
+IgnoreFile(ignore_file_or_folder, project_folder, ignore_file){
+    ignore_file_path := project_folder "\" ignore_file 
+    FileAppend, %ignore_file_or_folder% `n, %ignore_file_path% 
 }
 
 InstallRequirements(project_folder, requirements_file, virtualenv_folder){
@@ -139,6 +79,8 @@ InstallRequirements(project_folder, requirements_file, virtualenv_folder){
     FileDelete, %temp_path%
 }
 
+; #S
+
 SetupDocker(project_folder, dockerfile, requirements_file, python_start_file){
     dockerfile_path := project_folder "\" dockerfile
     
@@ -160,6 +102,14 @@ SetupDocker(project_folder, dockerfile, requirements_file, python_start_file){
     command := "`nCMD [ ""python"", """ python_start_file """ ] `n"
     FileAppend, %command%, %dockerfile_path% 
 
+
+    IgnoreFile(DOCKER_IGNORE, project_folder, DOCKER_IGNORE)
+    IgnoreFile(dockerfile, project_folder, DOCKER_IGNORE)
+}
+
+SetupGit(project_folder){
+    git_path := project_folder "\"
+    RunWait, powershell.exe $(git init %git_path%), , Hide
 }
 
 SetupMake(project_folder, makefile, python_start_file, requirements_file){
@@ -220,4 +170,18 @@ SetupMake(project_folder, makefile, python_start_file, requirements_file){
     command := "`t@docker save -o " image "_docker_image.zip " image "`n`n"
     FileAppend, %command%, %makefile_path% 
 
+}
+
+SetupRequirements(project_folder, requirements_file, virtualenv_folder){
+    AddDefualtRequirements(project_folder, requirements_file)
+    AddRequirements(project_folder, requirements_file)
+    InstallRequirements(project_folder, requirements_file, virtualenv_folder)
+}
+
+SetupVirtualEnvironment(project_folder, virtualenv_folder){
+    virtualenv_folder_path := project_folder "\" virtualenv_folder
+    RunWait, powershell.exe $(python -m virtualenv %virtualenv_folder_path% -p 3.12), , Hide
+    
+    IgnoreFile(virtualenv_folder "\", project_folder, GIT_IGNORE)
+    IgnoreFile(virtualenv_folder "\", project_folder, DOCKER_IGNORE)
 }
