@@ -1,6 +1,6 @@
 ; -----------------------------------------------------------------------
 ; Python Initial Project Creation Automation  [AHK]
-; created 01/07/2024 (version 2024.08.10)
+; created 11/08/2024 (version 2024.08.11)
 ; By Sizwe I. Mkhonza
 ; https://www.linkedin.com/in/sir-afrika/
 ; https://github.com/psydck/MyAutoHotKeys
