@@ -148,6 +148,11 @@ SetupMake(project_folder, makefile, python_start_file){
     command := "`t@python " python_start_file "`n`n"
     FileAppend, %command%, %makefile_path% 
 
+    ; tests
+    desc:= "test:`n"
+    FileAppend, %desc%, %makefile_path% 
+    command := "`t@pytest `n`n"
+    FileAppend, %command%, %makefile_path% 
 
     ; docker
     data := StrSplit(project_folder, "\")
