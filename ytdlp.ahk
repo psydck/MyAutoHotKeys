@@ -63,8 +63,6 @@ DownloadQualityVideo(video_start_path){
     Download(video_start_path,  "-f """ audio "+" video """ --merge-output-format mp4")
 }
 
-
-
 Download(start_path, command_args) {
 
     url := Trim(Clipboard)
