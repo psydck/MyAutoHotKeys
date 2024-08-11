@@ -46,7 +46,7 @@ start_folder := "D:\Development"
     CreateCommonFile(project_folder, python_start_file)
 
     ; setup make
-    SetupMake(project_folder, "Makefile", python_start_file)
+    SetupMake(project_folder, "Makefile", python_start_file, requirements_file)
 
     ; setup docker
     dockerfile := "dockerfile"
@@ -140,9 +140,22 @@ SetupDocker(project_folder, dockerfile, requirements_file, python_start_file){
 
 }
 
-SetupMake(project_folder, makefile, python_start_file){
+SetupMake(project_folder, makefile, python_start_file, requirements_file){
     makefile_path := project_folder "\" makefile
-    
+
+    ; install requirements
+    desc:= "install:`n"
+    FileAppend, %desc%, %makefile_path% 
+    command := "`t@python -m pip install -r " requirements_file "`n`n"
+    FileAppend, %command%, %makefile_path% 
+
+    ; show installed requirements
+    desc:= "show_pip:`n"
+    FileAppend, %desc%, %makefile_path% 
+    command := "`t@python -m pip list `n`n"
+    FileAppend, %command%, %makefile_path% 
+
+    ; python run
     desc:= "run:`n"
     FileAppend, %desc%, %makefile_path% 
     command := "`t@python " python_start_file "`n`n"
