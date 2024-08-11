@@ -3,5 +3,5 @@
 # personal
 MyInfo.ahk
 MyWifiNetwork.ahk
-myYoutubeFolders.ahk
+constants/myYoutubeFolders.ahk
 MyWifiNetwork.ahk
