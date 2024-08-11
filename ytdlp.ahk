@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ; -------------------------------------------
 ; created 01/07/2024 (version 2024.08.10)
 ; By Sizwe I. Mkhonza
@@ -195,7 +194,6 @@ ReDownloadParts(start_path, command_args){
         SplashTextOff     
     }
 }
-=======
 ; -------------------------------------------
 ; created 01/07/2024 (version 2024.08.10)
 ; By Sizwe I. Mkhonza
@@ -392,4 +390,3 @@ ReDownloadParts(start_path, command_args){
         SplashTextOff     
     }
 }
->>>>>>> 8bad6b3 (updated local)
