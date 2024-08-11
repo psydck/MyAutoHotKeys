@@ -41,10 +41,14 @@ start_folder := "D:\Development"
     AddRequirements(project_folder, requirements_file)
     InstallRequirements(project_folder, requirements_file, virtualenv_folder)
 
-    ; create main python script file
+    ; create python script files
     python_start_file := "main.py"
     CreateCommonFile(project_folder, python_start_file)
     CreateCommonFile(project_folder, "test_main.py")
+    stash_py_file := "stash.py"
+    CreateCommonFile(project_folder, stash_py_file)
+    IgnoreFile(stash_py_file, project_folder, ".gitignore")
+    IgnoreFile(stash_py_file, project_folder, ".dockerignore")
 
     ; setup make
     SetupMake(project_folder, "Makefile", python_start_file, requirements_file)
