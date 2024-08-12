@@ -42,7 +42,7 @@ SendMode Input
     CreateCommonFile(project_folder, "test_main.py")
 
     ; setup make
-    SetupMake(project_folder, "Makefile", python_start_file, requirements_file)
+    SetupMake(project_folder, "Makefile", python_start_file, requirements_file, virtualenv_folder)
 
     ; setup docker
     SetupDocker(project_folder, "dockerfile", requirements_file, python_start_file)

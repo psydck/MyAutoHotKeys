@@ -14,30 +14,63 @@
 
 AddDefualtRequirements(project_folder, requirements_file){
     requirements_path := project_folder "\" requirements_file
-    defualt_helpful_requirements := ["rich", "pytest"]
-    For index, requirement in defualt_helpful_requirements {
-        MsgBox, 4, Python Helpful Requirement, Add this useful requirement "%requirement%" ?, 
+    
+    terminal_packages := ["rich"]
+    test_packages := ["pytest", "allure-pytest" ,"behave", "allure-behave"]
+    game_pacakage := ["pygame"]
+    web_package := ["selenium", "playwright", "requests", "beautifulsoup4"]
+    document_packages := ["pypdf", "excel"]
+    data_science_packages := ["numpy", "pandas", "matplotlib", "tensorflow", "pytorch", "scikit-learn", "keras", "seaborn", "plotly", "nltk", "gensim", "spacy", "scipy", "theano", "pybrain", "bokeh", "hebel"]
+    
+    defualt_helpful_requirements := [terminal_packages, test_packages, game_pacakage, web_package, document_packages, data_science_packages]
+    defualt_helpful_requirements_category := ["Terminal", "Test", "Game", "Web", "Document", "Data"]
+
+    added_packages := ""
+    For index, requirements in defualt_helpful_requirements {
+        
+        requirement_category := defualt_helpful_requirements_category[index]
+        category := requirement_category " Packages"
+
+        category_requirements := ""
+        For Index, requirement in requirements { 
+            category_requirements .= Index . ". " . requirement . "`n" 
+            category_requirements := Trim(category_requirements, " ")
+        }
+        category_requirements := Trim(category_requirements, "`n")
+        
+        MsgBox, 4, %category%, Do you, want to add the following requirements, individually? `n%category_requirements%`n`n`nAddedd Requirements:`n%added_packages% 
         IfMsgBox Yes
         {
-            FileAppend, %requirement% `n, %requirements_path% 
+            
+            For _, requirement in requirements {
+
+                MsgBox, 4, %category%, Do you, want to add this requirement "%requirement%" ? `n`nAddedd Requirements:`n%added_packages% 
+                IfMsgBox Yes
+                {
+                    added_packages .= requirement . "`n"
+                    FileAppend, %requirement% `n, %requirements_path% 
+                }
+
+            }
         }
     }
+    return added_packages
 }
 
-AddRequirements(project_folder, requirements_file){
+AddRequirements(project_folder, requirements_file, added_packages){ 
     requirements_path := project_folder "\" requirements_file
     requirements_added := ""
     Loop {
-        InputBox, requirement , Python Requirement, Add a requirement `n %requirement%, , , , , , , , %requirements_added%
+        InputBox, requirement , Python Requirement, Add a requirement `n`nAddedd Requirements:`n%added_packages% , , , , , , , , %requirements_added%
         if (ErrorLevel = 1){
             break
         } 
         else {
-            MsgBox, 4, Python Requirement, Add this requirement? `n %requirement%, 
+            MsgBox, 4, Python Requirement, Add this "%requirement%" ? `n`nAddedd Requirements:`n%added_packages% 
             IfMsgBox Yes
             {
+                added_packages .= requirement . "`n"
                 FileAppend, %requirement% `n, %requirements_path% 
-                requirements_added := requirements_added "`n" requirement
             }
         }
     }
@@ -112,32 +145,60 @@ SetupGit(project_folder){
     RunWait, powershell.exe $(git init %git_path%), , Hide
 }
 
-SetupMake(project_folder, makefile, python_start_file, requirements_file){
+SetupMake(project_folder, makefile, python_start_file, requirements_file, virtualenv_folder){
     makefile_path := project_folder "\" makefile
 
-    ; install requirements
+    ; activate virtual environment
+    desc:= "activate:`n"
+    FileAppend, %desc%, %makefile_path% 
+    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\activate.bat`n`n"
+
+
+    ; git 
+    desc:= "add:`n"
+    FileAppend, %desc%, %makefile_path% 
+    command := "`t@git add $(file)`n`n"
+    FileAppend, %command%, %makefile_path% 
+
+    desc:= "commit:`n"
+    FileAppend, %desc%, %makefile_path% 
+    command := "`t@git commit -m ""$(message)""`n`n"
+    FileAppend, %command%, %makefile_path% 
+
+    desc:= "status:`n"
+    FileAppend, %desc%, %makefile_path% 
+    command := "`t@git status`n`n"
+    FileAppend, %command%, %makefile_path% 
+
+    
+    ; requirements
     desc:= "install:`n"
     FileAppend, %desc%, %makefile_path% 
-    command := "`t@python -m pip install -r " requirements_file "`n`n"
+    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python -m pip install -r " requirements_file "`n`n"
     FileAppend, %command%, %makefile_path% 
 
-    ; show installed requirements
-    desc:= "show_pip:`n"
+    desc:= "showpack:`n"
     FileAppend, %desc%, %makefile_path% 
-    command := "`t@python -m pip list `n`n"
+    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python -m pip list `n`n"
     FileAppend, %command%, %makefile_path% 
 
-    ; python run
+    desc:= "uninstall:`n"
+    FileAppend, %desc%, %makefile_path% 
+    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python -m pip uninstall $(package)`n`n"
+    FileAppend, %command%, %makefile_path% 
+
+
+    ; python
     desc:= "run:`n"
     FileAppend, %desc%, %makefile_path% 
-    command := "`t@python " python_start_file "`n`n"
+    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python " python_start_file "`n`n"
     FileAppend, %command%, %makefile_path% 
 
-    ; tests
     desc:= "test:`n"
     FileAppend, %desc%, %makefile_path% 
-    command := "`t@pytest `n`n"
+    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python -m pytest `n`n"
     FileAppend, %command%, %makefile_path% 
+
 
     ; docker
     data := StrSplit(project_folder, "\")
@@ -145,7 +206,7 @@ SetupMake(project_folder, makefile, python_start_file, requirements_file){
     StringReplace, project_name, project_name, %A_Space%, _ , All
     StringLower, image, project_name
 
-    desc:= "build:`n"
+    desc:= "image:`n"
     FileAppend, %desc%, %makefile_path% 
     command := "`t@docker build . -t " image " `n`n"
     FileAppend, %command%, %makefile_path% 
@@ -173,8 +234,8 @@ SetupMake(project_folder, makefile, python_start_file, requirements_file){
 }
 
 SetupRequirements(project_folder, requirements_file, virtualenv_folder){
-    AddDefualtRequirements(project_folder, requirements_file)
-    AddRequirements(project_folder, requirements_file)
+    added_packages := AddDefualtRequirements(project_folder, requirements_file)
+    AddRequirements(project_folder, requirements_file, added_packages)
     InstallRequirements(project_folder, requirements_file, virtualenv_folder)
 }
 
