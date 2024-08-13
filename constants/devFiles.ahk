@@ -10,4 +10,4 @@
 DOCKER_IGNORE := ".dockerignore"
 GIT_IGNORE := ".gitignore"
 
-START_FOLDER := "D:\Development"
+START_FOLDER := "D:\Development"    ; you may change this, to a folder you like
