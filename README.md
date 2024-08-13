@@ -1,6 +1,6 @@
 # My Auto Hot Keys
 
-Tied of manually doing madian things; like inputing commands on the terminal, or inputing text on web forms... AutoHotkey is a free, open-source scripting language for Windows that allows you to easily create small to complex scripts for all kinds of tasks such as: form fillers, auto-clicking, macros, etc.
+Tied of manually doing madian things; like inputing commands on the terminal, or inputing text on web forms... [AutoHotkey](https://www.autohotkey.com/) is a free, open-source scripting language for Windows that allows you to easily create small to complex scripts for all kinds of tasks such as: form fillers, auto-clicking, macros, etc.
 
 This project let you Automate the following:
 
