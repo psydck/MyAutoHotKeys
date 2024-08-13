@@ -46,7 +46,7 @@ Download(start_path, command_args) {
         Sleep 15000
         SplashTextOff
 
-        run, yt-dl.exe %command_args% -P "%path%" --console-title "%url%", , Hide
+        run, yt-dlp.exe %command_args% -P "%path%" --console-title "%url%", , Hide
         
         FormatTime, date, , yyyy-MM-dd
         FormatTime, time, ,HH:mm:ss
@@ -101,7 +101,7 @@ DownloadQualityVideo(video_start_path){
         return
     }
 
-    Prompt := RunWaitOne("yt-dl.exe -F " url)
+    Prompt := RunWaitOne("yt-dlp.exe -F " url)
     
     InputBox, audio , Select Audio ID, %Prompt%, , 841, 600, , , , , 
     if (ErrorLevel = 1 or ErrorLevel = 2) {
@@ -127,7 +127,7 @@ DownloadUrl(path, url, command_args) {
         return 0
     }
 
-    run, yt-dl.exe %command_args% -P "%path%" --console-title "%url%", , Hide
+    run, yt-dlp.exe %command_args% -P "%path%" --console-title "%url%", , Hide
     return 1
 }
 
