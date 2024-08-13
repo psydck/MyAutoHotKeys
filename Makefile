@@ -28,11 +28,19 @@ gs: 	# git status ~ make gs
 	@git status
 
 gPom:	# add files, commit message and push
+	@git status
 	@git add $(files)
+	@git status
 	@git commit -m "$(message)"
+	@git status
 	@git push origin main
+	@git status
 
 gPlm:	# add files, commit message and push
-	@git add $(files) 
+	@git status
+	@git add $(files)
+	@git status
 	@git commit -m "$(message)"
+	@git status
 	@git push local main
+	@git status
