@@ -34,31 +34,31 @@ gs: 	# git status ~ make gs
 	@git status
 
 gPom:	# add files, commit message and push
-	@echo -e "\n\n------------- \033[1;33m Status \033[0m -------------\n"
+	@echo -e "\n------------- \033[1;33m Status \033[0m -------------\n"
 	@git status
-	@echo -e "\n\n------------- \033[1;35m Staged Files \033[0m -------------\n"
+	@echo -e "\n------------- \033[1;35m Staged Files \033[0m -------------\n"
 	@git add $(files)
 	@git status
-	@echo -e "\n\n------------- \033[1;32m Commited \033[0m -------------\n"
+	@echo -e "\n------------- \033[0;32m Commited \033[0m -------------\n"
 	@git commit -m "$(message)"
-	@echo -e "\n\n-------------  \033[1;33m Status \033[0m -------------\n"
+	@echo -e "\n-------------  \033[1;33m Status \033[0m -------------\n"
 	@git status
-	@echo -e "\n\n-------------  \033[0;32m Published \033[0m -------------\n"
+	@echo -e "\n-------------  \033[1;32m Published \033[0m -------------\n"
 	@git push origin main
-	@echo -e "\n\n------------- \033[1;33m Status \033[0m -------------\n"
+	@echo -e "\n------------- \033[1;33m Status \033[0m -------------\n"
 	@git status
 	
 gPlm:	# add files, commit message and push
-	@echo -e "\n\n------------- \033[1;33m Status \033[0m -------------\n"
+	@echo -e "\n------------- \033[1;33m Status \033[0m -------------\n"
 	@git status
-	@echo -e "\n\n------------- \033[1;35m Staged Files \033[0m -------------\n"
+	@echo -e "\n------------- \033[1;35m Staged Files \033[0m -------------\n"
 	@git add $(files)
 	@git status
-	@echo -e "\n\n------------- \033[1;32m Commited \033[0m -------------\n"
+	@echo -e "\n------------- \033[0;32m Commited \033[0m -------------\n"
 	@git commit -m "$(message)"
-	@echo -e "\n\n-------------  \033[1;33m Status \033[0m -------------\n"
+	@echo -e "\n-------------  \033[1;33m Status \033[0m -------------\n"
 	@git status
-	@echo -e "\n\n-------------  \033[0;32m Published \033[0m -------------\n"
+	@echo -e "\n-------------  \033[1;32m Published \033[0m -------------\n"
 	@git push local main
-	@echo -e "\n\n------------- \033[1;33m Status \033[0m -------------\n"
+	@echo -e "\n------------- \033[1;33m Status \033[0m -------------\n"
 	@git status
