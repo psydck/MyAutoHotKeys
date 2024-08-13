@@ -25,7 +25,7 @@ This project let you Automate the following:
 
 - Usage
 
-    1. Double click [YoutubeDownloader.ahk](YoutubeDownloader.ahk) script to activate it.
+    1. Double click [YoutubeDownloader.ahk](YoutubeDownloader.ahk) script to activate it**.
     
     2. Go to [Youtube](https://www.youtube.com/) or [Youtube Music](https://music.youtube.com/) on your Microsoft Edge Browser.
     
@@ -43,7 +43,7 @@ This project let you Automate the following:
     
     6. Press `Ok` Button.
 
-___Note___ : Daily usage now onwards requires, that you repeat; step 2 once**, and steps 3, 4, 5, and 6 repeatedly on either [Youtube](https://www.youtube.com/) or [Youtube Music](https://music.youtube.com/).
+___Note___ : Daily usage now onwards requires, that you repeat; step 2 once, and steps 3, 4, 5, and 6 repeatedly on either [Youtube](https://www.youtube.com/) or [Youtube Music](https://music.youtube.com/).
 
 
 [PythonProjectSetup.ahk](PythonProjectSetup.ahk)
@@ -56,14 +56,14 @@ ___Note___ : Daily usage now onwards requires, that you repeat; step 2 once**, a
 
 - Usage
 
-1. Double click [PythonProjectSetup.ahk](PythonProjectSetup.ahk) script to activate it.
+1. Double click [PythonProjectSetup.ahk](PythonProjectSetup.ahk) script to activate it**.
 2. Open your **Windows Terminal**
 3. Type the following `.cpy`, and press either `Space` or `Enter`
 4. Create or Choose a new **Python Project folder**
 5. Choose Python Packages to add.
 6. Provide your own Python Packages.
 
-___Note___ : Daily usage now onwards requires, that you repeat; step 2 once**, and steps 3, 4, 5, and 6 repeatedly on your **Windows Terminal**.
+___Note___ : Daily usage now onwards requires, that you repeat; step 2 once, and steps 3, 4, 5, and 6 repeatedly on your **Windows Terminal**.
 
 
 ___** suggests, if you choose not to include the .ahk script on your **Windows Programs Startup Folder**___
