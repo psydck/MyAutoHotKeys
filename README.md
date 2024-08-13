@@ -52,7 +52,7 @@ ___Note___ : Daily usage now onwards requires, that you repeat; step 2 once**, a
 1. Add [PythonProjectSetup.ahk](PythonProjectSetup.ahk) as a Shortcut, to your windows programs startup folder.
     - Make [PythonProjectSetup.ahk](PythonProjectSetup.ahk) script file as a shortcut, and **Copy it**. 
     - Press the `Windows key + R` , and **type** the following `shell:startup` and press **Enter**.
-    - Paste[PythonProjectSetup.ahk](PythonProjectSetup.ahk) shortcut, to your **Windows Programs Startup Folder**.
+    - Paste [PythonProjectSetup.ahk](PythonProjectSetup.ahk) shortcut, to your **Windows Programs Startup Folder**.
 
 - Usage
 
