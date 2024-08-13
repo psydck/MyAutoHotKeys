@@ -27,12 +27,12 @@ grc:	# removes git cached files ~ make grc
 gs: 	# git status ~ make gs
 	@git status
 
-gPom:		# add files, commit message and push
+gPom:	# add files, commit message and push
 	@git add $(files)
 	@git commit -m "$(message)"
 	@git push origin main
 
-gPlm:		# add files, commit message and push
+gPlm:	# add files, commit message and push
 	@git add $(files) 
 	@git commit -m "$(message)"
 	@git push local main
