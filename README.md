@@ -29,7 +29,7 @@ This project let you Automate the following:
     
     2. Go to [Youtube](https://www.youtube.com/) or [Youtube Music](https://music.youtube.com/) on your Microsoft Edge Browser.
     
-    3. Copy the URL link on Youtube.
+    3. Copy a URL link on Youtube.
     
     4. Press either
     - `Alt + A` to Download it as **Audio Only**
