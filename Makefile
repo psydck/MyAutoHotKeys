@@ -32,7 +32,6 @@ gPom:	# add files, commit message and push
 	@git status
 	@echo -e "\n\n------------- Staged Files -------------\n\n"
 	@git add $(files)
-	@echo -e "\n\n------------- Status -------------\n\n"
 	@git status
 	@echo -e "\n\n------------- Commited -------------\n\n"
 	@git commit -m "$(message)"
@@ -42,14 +41,13 @@ gPom:	# add files, commit message and push
 	@git push origin main
 	@echo -e "\n\n------------- Status -------------\n\n"
 	@git status
-	@echo -e "\n\n------------- Done -------------\n\n"
+	@echo -e "\n\n------------- Done -------------\n"
 
 gPlm:	# add files, commit message and push
 	@echo -e "\n\n------------- Status -------------\n\n"
 	@git status
 	@echo -e "\n\n------------- Staged Files -------------\n\n"
 	@git add $(files)
-	@echo -e "\n\n------------- Status -------------\n\n"
 	@git status
 	@echo -e "\n\n------------- Commited -------------\n\n"
 	@git commit -m "$(message)"
@@ -59,4 +57,4 @@ gPlm:	# add files, commit message and push
 	@git push local main
 	@echo -e "\n\n------------- Status -------------\n\n"
 	@git status
-	@echo -e "\n\n------------- Done -------------\n\n"
+	@echo -e "\n\n------------- Done -------------\n"
