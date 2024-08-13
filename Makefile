@@ -10,7 +10,7 @@ gc: 	# git commit -m "message" ~ make gc message="*"
 	@git commit -m "$(message)"
 
 gcb: 	# git checkout <branch> ~ make gcb branch="*"
-	@echo -e "\n------------- \033[1;36m Switching to [$(branch)] Branch \033[0m -------------\n"
+	@echo -e "\n------------- \033[1;36m Switching Branch \033[0m -------------\n"
 	@git checkout $(branch)
 
 gfom: 	# [fetch from remote main repo] -> git fetch origin main ~ make gfom
