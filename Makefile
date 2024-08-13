@@ -36,14 +36,14 @@ gs: 	# git status ~ make gs
 gPom:	# add files, commit message and push
 	@echo -e "\n------------- \033[1;33m Status \033[0m -------------\n"
 	@git status
-	@echo -e "\n------------- \033[1;35m Staged Files 😎 \033[0m -------------\n"
+	@echo -e "\n------------- \033[1;35m Staged Files \033[0m -------------\n"
 	@git add $(files)
 	@git status
-	@echo -e "\n------------- \033[0;32m Commited 💕 \033[0m -------------\n"
+	@echo -e "\n------------- \033[0;32m Commited \033[0m -------------\n"
 	@git commit -m "$(message)"
 	@echo -e "\n-------------  \033[1;33m Status \033[0m -------------\n"
 	@git status
-	@echo -e "\n-------------  \033[1;32m Published 👌 \033[0m -------------\n"
+	@echo -e "\n-------------  \033[1;32m Published \xf0\x9f\x87\xba\xf0\x9f\x87\xb8 \033[0m -------------\n"
 	@git push origin main
 	@echo -e "\n------------- \033[1;33m Status \033[0m -------------\n"
 	@git status
@@ -51,14 +51,14 @@ gPom:	# add files, commit message and push
 gPlm:	# add files, commit message and push
 	@echo -e "\n------------- \033[1;33m Status \033[0m -------------\n"
 	@git status
-	@echo -e "\n------------- \033[1;35m Staged Files 😎 \033[0m -------------\n"
+	@echo -e "\n------------- \033[1;35m Staged Files \033[0m -------------\n"
 	@git add $(files)
 	@git status
-	@echo -e "\n------------- \033[0;32m Commited 💕 \033[0m -------------\n"
+	@echo -e "\n------------- \033[0;32m Commited \033[0m -------------\n"
 	@git commit -m "$(message)"
 	@echo -e "\n-------------  \033[1;33m Status \033[0m -------------\n"
 	@git status
-	@echo -e "\n-------------  \033[1;32m Published 👌 \033[0m -------------\n"
+	@echo -e "\n-------------  \033[1;32m Published \xf0\x9f\x87\xba\xf0\x9f\x87\xb8 \033[0m -------------\n"
 	@git push local main
 	@echo -e "\n------------- \033[1;33m Status \033[0m -------------\n"
 	@git status
