@@ -29,18 +29,32 @@ gs: 	# git status ~ make gs
 
 gPom:	# add files, commit message and push
 	@git status
+	@echo -e "\n\n-------------\n\n"
 	@git add $(files)
+	@echo -e "\n\n-------------\n\n"
 	@git status
+	@echo -e "\n\n-------------\n\n"
 	@git commit -m "$(message)"
+	@echo -e "\n\n-------------\n\n"
 	@git status
+	@echo -e "\n\n-------------\n\n"
 	@git push origin main
+	@echo -e "\n\n-------------\n\n"
 	@git status
+	@echo -e "\n\n-------------\n\n"
 
 gPlm:	# add files, commit message and push
 	@git status
+	@echo -e "\n\n-------------\n\n"
 	@git add $(files)
+	@echo -e "\n\n-------------\n\n"
 	@git status
+	@echo -e "\n\n-------------\n\n"
 	@git commit -m "$(message)"
+	@echo -e "\n\n-------------\n\n"
 	@git status
+	@echo -e "\n\n-------------\n\n"
 	@git push local main
+	@echo -e "\n\n-------------\n\n"
 	@git status
+	@echo -e "\n\n-------------\n\n"
