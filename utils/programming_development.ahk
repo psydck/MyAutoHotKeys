@@ -7,8 +7,7 @@
 ; AHK Version 1.1.37.02
 ; ----------------------------------------------------------------------------------------------
 
-#include .\constants\devFiles.ahk
-#include .\constants\devConsoleColors.ahk
+#include .\constants\dev.ahk
 
 
 ; #A
@@ -60,26 +59,31 @@ AddDefualtRequirements(project_folder, requirements_file){
 
 AppendMakeComment(comment, makefile_path){
     if (StrLen(comment) > 0) {
-        FileAppend, "# " comment "`n", %makefile_path% 
+        comment := "# " comment "`n"
+        FileAppend, %comment%, %makefile_path% 
     }
 }
 
 AppendMakeShortcut(shortcut, echo_title, title_color, commands, makefile_path){
 
     ; shortcut append
-    FileAppend, shortcut ":`n", %makefile_path% 
+    shortcut := shortcut ":`n"
+    FileAppend, %shortcut%, %makefile_path% 
     
     ; echo title append
     if (StrLen(echo_title) > 0) {
-        FileAppend, "`t@echo -e ""\n------------- " title_color " " echo_title " " RESET_CONSOLE_TEXT_COLOR " -------------\n"" `n", %makefile_path%
+        title := "`t@echo -e ""\n------------- " title_color " " echo_title " " get_reset_color() " -------------\n"" `n"
+        FileAppend, %title% , %makefile_path%
     }
 
     ; commands append
     For _, command in commands {
-        FileAppend, "`t@" command "`n", %makefile_path% 
+        command := "`t@" command "`n"
+        FileAppend, %command%, %makefile_path% 
     }
-
-    FileAppend, "`n", %makefile_path% 
+    
+    newline := "`n"
+    FileAppend, %newline%, %makefile_path% 
 }
 
 AddRequirements(project_folder, requirements_file, added_packages){ 
@@ -161,8 +165,8 @@ SetupDocker(project_folder, dockerfile, requirements_file, python_start_file){
     FileAppend, %command%, %dockerfile_path% 
 
 
-    IgnoreFile(DOCKER_IGNORE, project_folder, DOCKER_IGNORE)
-    IgnoreFile(dockerfile, project_folder, DOCKER_IGNORE)
+    IgnoreFile(get_docker_ignore(), project_folder, get_docker_ignore())
+    IgnoreFile(dockerfile, project_folder, get_docker_ignore())
 }
 
 SetupGit(project_folder){
@@ -179,16 +183,16 @@ SetupMake(project_folder, makefile, python_start_file, requirements_file, virtua
     
     ; git
     AppendMakeComment("Git", makefile_path)
-    AppendMakeShortcut("add", "Staged", CYAN_CONSOLE_TEXT_COLOR, ["git add $(file)", "git status"], makefile_path)
-    AppendMakeShortcut("commit", "Commited", GREEN_CONSOLE_TEXT_COLOR, ["git commit -m ""$(message)"" ",  "git status"], makefile_path)
-    AppendMakeShortcut("unstage", "Unstage", RED_CONSOLE_TEXT_COLOR, ["git restore --staged $(files)"], makefile_path)
+    AppendMakeShortcut("add", "Staged", get_cyan_color(), ["git add $(file)", "git status"], makefile_path)
+    AppendMakeShortcut("commit", "Committed", get_green_color(), ["git commit -m ""$(message)"" ",  "git status"], makefile_path)
+    AppendMakeShortcut("unstage", "Unstage", get_red_color(), ["git restore --staged $(files)"], makefile_path)
     AppendMakeShortcut("status", "Status", YELLOW_CONSOLE_TEXT_COLOR, ["git status"], makefile_path)
     
     ; requirements
     AppendMakeComment("PIP Packages", makefile_path)
-    AppendMakeShortcut("install", "Installing Requirements", MAGENTA_CONSOLE_TEXT_COLOR, ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pip install -r " requirements_file], makefile_path)
-    AppendMakeShortcut("freeze", "List of Installed Packages", GREEN_CONSOLE_TEXT_COLOR, ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pip list"], makefile_path)
-    AppendMakeShortcut("uninstall", "Uninstalling a Package", RED_CONSOLE_TEXT_COLOR, ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pip uninstall $(package)"], makefile_path)
+    AppendMakeShortcut("install", "Installing Requirements", get_magenta_color(), ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pip install -r " requirements_file], makefile_path)
+    AppendMakeShortcut("freeze", "List of Installed Packages", get_green_color(), ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pip list"], makefile_path)
+    AppendMakeShortcut("uninstall", "Uninstalling a Package", get_red_color(), ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pip uninstall $(package)"], makefile_path)
 
     ; python
     AppendMakeComment("Python", makefile_path)
@@ -202,11 +206,11 @@ SetupMake(project_folder, makefile, python_start_file, requirements_file, virtua
     StringReplace, project_name, project_name, %A_Space%, _ , All
     StringLower, image, project_name
 
-    AppendMakeShortcut("image", "Building Docker Image",  GREEN_CONSOLE_TEXT_COLOR, ["docker build . -t " image ], makefile_path)
-    AppendMakeShortcut("container", "Creating Docker Container",  CYAN_CONSOLE_TEXT_COLOR, ["docker run -d -p 8080:APP_PORT -name app " image], makefile_path)
-    AppendMakeShortcut("start_container", "Starting Container", GREEN_CONSOLE_TEXT_COLOR, ["docker container start app"], makefile_path)
-    AppendMakeShortcut("stop_container", "Stopping Container", RED_CONSOLE_TEXT_COLOR, ["docker container stop app"], makefile_path)
-    AppendMakeShortcut("save_image", "Saving Image to zip File", MAGENTA_CONSOLE_TEXT_COLOR, ["docker save -o " image "_docker_image.zip " image ], makefile_path)
+    AppendMakeShortcut("image", "Building Docker Image",  get_green_color(), ["docker build . -t " image ], makefile_path)
+    AppendMakeShortcut("container", "Creating Docker Container",  get_cyan_color(), ["docker run -d -p 8080:APP_PORT -name app " image], makefile_path)
+    AppendMakeShortcut("start_container", "Starting Container", get_green_color(), ["docker container start app"], makefile_path)
+    AppendMakeShortcut("stop_container", "Stopping Container", get_red_color(), ["docker container stop app"], makefile_path)
+    AppendMakeShortcut("save_image", "Saving Image to zip File", get_magenta_color(), ["docker save -o " image "_docker_image.zip " image ], makefile_path)
 
 }
 
@@ -220,6 +224,6 @@ SetupVirtualEnvironment(project_folder, virtualenv_folder){
     virtualenv_folder_path := project_folder "\" virtualenv_folder
     RunWait, powershell.exe $(python -m virtualenv %virtualenv_folder_path% -p 3.12), , Hide
     
-    IgnoreFile(virtualenv_folder "\", project_folder, GIT_IGNORE)
-    IgnoreFile(virtualenv_folder "\", project_folder, DOCKER_IGNORE)
+    IgnoreFile(virtualenv_folder . "\", project_folder, get_git_ignore())
+    IgnoreFile(virtualenv_folder . "\", project_folder, get_docker_ignore())
 }

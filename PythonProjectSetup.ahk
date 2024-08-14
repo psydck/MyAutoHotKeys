@@ -6,7 +6,7 @@
 ; https://github.com/psydck/MyAutoHotKeys
 ; AHK Version 1.1.37.02
 ; ----------------------------------------------------------------------------------------------
-#include .\constants\devFiles.ahk
+#include .\constants\dev.ahk
 #include .\utils\programming_development.ahk
 
 
@@ -37,8 +37,8 @@ SendMode Input
     ; create python scripts
     CreateCommonFile(project_folder, (python_start_file := "main.py"))
     CreateCommonFile(project_folder, (stash_py_file := "stash.py"))
-    IgnoreFile(stash_py_file, project_folder, GIT_IGNORE)
-    IgnoreFile(stash_py_file, project_folder, DOCKER_IGNORE)
+    IgnoreFile(stash_py_file, project_folder, get_git_ignore())
+    IgnoreFile(stash_py_file, project_folder, get_docker_ignore())
     CreateCommonFile(project_folder, "test_main.py")
 
     ; setup make
