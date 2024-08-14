@@ -128,7 +128,7 @@ GetAvailableUnsedUserDefinedPort(){
         ; Read 
         output = exec.StdOut.ReadAll()
     
-        isPortAvailablePort := StrLen(output) > 0
+        isPortAvailable := StrLen(output) > 0
 
         if (isPortAvailable) {
             return getAvailableUnsedUserDefinedPort
