@@ -183,8 +183,8 @@ SetupGit(project_folder){
     initialize_git := "git init . "
     create_dev_branch := "git branch dev"
     create_test_branch := "git branch test"
-    create_test_branch := "git branch build"
-    RunTempCommandScript(project_folder, [change_to_project_folder, initialize_git, create_dev_branch, create_test_branch])
+    create_build_branch := "git branch build"
+    RunTempCommandScript(project_folder, [change_to_project_folder, initialize_git, create_dev_branch, create_test_branch, create_build_branch])
 }
 
 SetupMake(project_folder, makefile, python_start_file, requirements_file, virtualenv_folder){
