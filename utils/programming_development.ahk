@@ -178,6 +178,8 @@ RunTempCommandScript(project_folder, commands){
 
 SetupDocker(project_folder, dockerfile, requirements_file, python_start_file){
     dockerfile_path := project_folder "\" dockerfile
+
+    expose_port := GetAvailableUnsedUserDefinedPort()
     
     desc:= "FROM python:3:12-slim`n"
     FileAppend, %desc%, %dockerfile_path% 
@@ -191,15 +193,16 @@ SetupDocker(project_folder, dockerfile, requirements_file, python_start_file){
     command := "`nRUN pip install -r " requirements_file " `n"
     FileAppend, %command%, %dockerfile_path% 
 
-    command := "`nEXPOSE " GetAvailableUnsedUserDefinedPort() " `n"
+    command := "`nEXPOSE " expose_port " `n"
     FileAppend, %command%, %dockerfile_path% 
 
     command := "`nCMD [ ""python"", """ python_start_file """ ] `n"
     FileAppend, %command%, %dockerfile_path% 
 
-
     IgnoreFile(get_docker_ignore(), project_folder, get_docker_ignore())
     IgnoreFile(dockerfile, project_folder, get_docker_ignore())
+
+    return expose_port
 }
 
 SetupGit(project_folder){
@@ -226,7 +229,7 @@ GitCommitInitialState(project_folder){
     RunTempCommandScript(project_folder, [change_to_project_folder, initialize_git, stage_files, commit, create_dev_branch, create_test_branch, create_build_branch])
 }
 
-SetupMake(project_folder, makefile, python_start_file, requirements_file, virtualenv_folder){
+SetupMake(project_folder, makefile, python_start_file, requirements_file, virtualenv_folder, expose_port){
     makefile_path := project_folder "\" makefile
 
     ; activate virtual environment
@@ -261,7 +264,7 @@ SetupMake(project_folder, makefile, python_start_file, requirements_file, virtua
     StringLower, image, project_name
 
     AppendMakeShortcut("image", "Building Docker Image",  get_green_color(), ["docker build . -t " image ], makefile_path)
-    AppendMakeShortcut("container", "Creating Docker Container",  get_cyan_color(), ["docker run -d -p 8080:APP_PORT -name app " image], makefile_path)
+    AppendMakeShortcut("container", "Creating Docker Container",  get_cyan_color(), ["docker run -d -p 8080:" expose_port " --name app " image], makefile_path)
     AppendMakeShortcut("start_container", "Starting Container", get_green_color(), ["docker container start app"], makefile_path)
     AppendMakeShortcut("stop_container", "Stopping Container", get_red_color(), ["docker container stop app"], makefile_path)
     AppendMakeShortcut("save_image", "Saving Image to zip File", get_magenta_color(), ["docker save -o " image "_docker_image.zip " image ], makefile_path)

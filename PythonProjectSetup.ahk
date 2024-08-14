@@ -41,11 +41,12 @@ SendMode Input
     IgnoreFile(stash_py_file, project_folder, get_docker_ignore())
     CreateCommonFile(project_folder, "test_main.py")
 
-    ; setup make
-    SetupMake(project_folder, "Makefile", python_start_file, requirements_file, virtualenv_folder)
-
     ; setup docker
-    SetupDocker(project_folder, "dockerfile", requirements_file, python_start_file)
+    expose_port := SetupDocker(project_folder, "dockerfile", requirements_file, python_start_file)
+
+    ; setup make
+    SetupMake(project_folder, "Makefile", python_start_file, requirements_file, virtualenv_folder, expose_port)
+
     
     GitCommitInitialState(project_folder)
 return
