@@ -127,13 +127,19 @@ InstallRequirements(project_folder, requirements_file, virtualenv_folder){
     activate_virtualenv := virtualenv_path "\Scripts\activate"
     install_requirements := "pip install -r " requirements_path
 
+    RunTempCommandScript(project_folder, [change_to_project_folder, activate_virtualenv, install_requirements])
+
+}
+
+RunTempCommandScript(project_folder, commands){
     ; create temp installation script
     temp := "temp.ps1"
     temp_path := project_folder "\" temp
-    FileAppend, %change_to_project_folder% `n, %temp_path% 
-    FileAppend, %activate_virtualenv% `n, %temp_path% 
-    FileAppend, %install_requirements% `n, %temp_path% 
 
+    For _, command in commands {
+        FileAppend, %command% `n, %temp_path% 
+    }
+    
     ; execute temp installation script
     RunWait, powershell.exe %temp_path% , , Hide
 
@@ -172,6 +178,7 @@ SetupDocker(project_folder, dockerfile, requirements_file, python_start_file){
 SetupGit(project_folder){
     git_path := project_folder "\"
     RunWait, powershell.exe $(git init %git_path%), , Hide
+    
 }
 
 SetupMake(project_folder, makefile, python_start_file, requirements_file, virtualenv_folder){
