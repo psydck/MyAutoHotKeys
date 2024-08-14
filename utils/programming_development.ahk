@@ -177,8 +177,14 @@ SetupDocker(project_folder, dockerfile, requirements_file, python_start_file){
 
 SetupGit(project_folder){
     git_path := project_folder "\"
-    RunWait, powershell.exe $(git init %git_path%), , Hide
     
+    ; commands
+    change_to_project_folder := "cd " project_folder
+    initialize_git := "git init . "
+    create_dev_branch := "git branch dev"
+    create_test_branch := "git branch test"
+    create_test_branch := "git branch build"
+    RunTempCommandScript(project_folder, [change_to_project_folder, initialize_git, create_dev_branch, create_test_branch])
 }
 
 SetupMake(project_folder, makefile, python_start_file, requirements_file, virtualenv_folder){
