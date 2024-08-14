@@ -63,6 +63,11 @@ ___Note___ : Daily usage now onwards requires, that you repeat; step 2 once, and
 5. Choose Python Packages to add.
 6. Provide your own Python Packages.
 
+When, you're done; you'll see the following files, and folders on your **Python Project folder**.
+
+![Python Project folder Content](README_DATA/python_project_output.png)
+
+
 ___Note___ : Daily usage now onwards requires, that you repeat; step 2 once, and steps 3, 4, 5, and 6 repeatedly on your **Windows Terminal**.
 
 
