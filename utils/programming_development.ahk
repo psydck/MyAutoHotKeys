@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------------------------
 
 #include .\constants\devFiles.ahk
+#include .\constants\devConsoleColors.ahk
 
 
 ; #A
@@ -55,6 +56,30 @@ AddDefualtRequirements(project_folder, requirements_file){
         }
     }
     return added_packages
+}
+
+AppendMakeComment(comment, makefile_path){
+    if (StrLen(comment) > 0) {
+        FileAppend, "# " comment "`n", %makefile_path% 
+    }
+}
+
+AppendMakeShortcut(shortcut, echo_title, title_color, commands, makefile_path){
+
+    ; shortcut append
+    FileAppend, shortcut ":`n", %makefile_path% 
+    
+    ; echo title append
+    if (StrLen(echo_title) > 0) {
+        FileAppend, "`t@echo -e ""\n------------- " title_color " " echo_title " " RESET_CONSOLE_TEXT_COLOR " -------------\n"" `n", %makefile_path%
+    }
+
+    ; commands append
+    For _, command in commands {
+        FileAppend, "`t@" command "`n", %makefile_path% 
+    }
+
+    FileAppend, "`n", %makefile_path% 
 }
 
 AddRequirements(project_folder, requirements_file, added_packages){ 
@@ -149,87 +174,39 @@ SetupMake(project_folder, makefile, python_start_file, requirements_file, virtua
     makefile_path := project_folder "\" makefile
 
     ; activate virtual environment
-    desc:= "activate:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\activate.bat`n`n"
-
-
-    ; git 
-    desc:= "add:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@git add $(file)`n`n"
-    FileAppend, %command%, %makefile_path% 
-
-    desc:= "commit:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@git commit -m ""$(message)""`n`n"
-    FileAppend, %command%, %makefile_path% 
-
-    desc:= "status:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@git status`n`n"
-    FileAppend, %command%, %makefile_path% 
-
+    AppendMakeComment("Virtual Environment", makefile_path)
+    AppendMakeShortcut("activate", "", "", ["powershell.exe .\" virtualenv_folder "\Scripts\activate.bat"], makefile_path)
+    
+    ; git
+    AppendMakeComment("Git", makefile_path)
+    AppendMakeShortcut("add", "Staged", CYAN_CONSOLE_TEXT_COLOR, ["git add $(file)", "git status"], makefile_path)
+    AppendMakeShortcut("commit", "Commited", GREEN_CONSOLE_TEXT_COLOR, ["git commit -m ""$(message)"" ",  "git status"], makefile_path)
+    AppendMakeShortcut("unstage", "Unstage", RED_CONSOLE_TEXT_COLOR, ["git restore --staged $(files)"], makefile_path)
+    AppendMakeShortcut("status", "Status", YELLOW_CONSOLE_TEXT_COLOR, ["git status"], makefile_path)
     
     ; requirements
-    desc:= "install:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python -m pip install -r " requirements_file "`n`n"
-    FileAppend, %command%, %makefile_path% 
-
-    desc:= "showpack:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python -m pip list `n`n"
-    FileAppend, %command%, %makefile_path% 
-
-    desc:= "uninstall:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python -m pip uninstall $(package)`n`n"
-    FileAppend, %command%, %makefile_path% 
-
+    AppendMakeComment("PIP Packages", makefile_path)
+    AppendMakeShortcut("install", "Installing Requirements", MAGENTA_CONSOLE_TEXT_COLOR, ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pip install -r " requirements_file], makefile_path)
+    AppendMakeShortcut("freeze", "List of Installed Packages", GREEN_CONSOLE_TEXT_COLOR, ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pip list"], makefile_path)
+    AppendMakeShortcut("uninstall", "Uninstalling a Package", RED_CONSOLE_TEXT_COLOR, ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pip uninstall $(package)"], makefile_path)
 
     ; python
-    desc:= "run:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python " python_start_file "`n`n"
-    FileAppend, %command%, %makefile_path% 
-
-    desc:= "test:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@powershell.exe .\" virtualenv_folder "\Scripts\python -m pytest `n`n"
-    FileAppend, %command%, %makefile_path% 
-
-
+    AppendMakeComment("Python", makefile_path)
+    AppendMakeShortcut("run", "", "", ["powershell.exe .\" virtualenv_folder "\Scripts\python " python_start_file], makefile_path)
+    AppendMakeShortcut("test", "", "", ["powershell.exe .\" virtualenv_folder "\Scripts\python -m pytest"], makefile_path)
+   
     ; docker
+    AppendMakeComment("Docker", makefile_path)
     data := StrSplit(project_folder, "\")
     project_name := data[data.Length()]
     StringReplace, project_name, project_name, %A_Space%, _ , All
     StringLower, image, project_name
 
-    desc:= "image:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@docker build . -t " image " `n`n"
-    FileAppend, %command%, %makefile_path% 
-
-    desc:= "container:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@docker run -d -p 8080:APP_PORT -name app " image "`n`n"
-    FileAppend, %command%, %makefile_path% 
-    
-    desc:= "start_container:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@docker container start app `n`n"
-    FileAppend, %command%, %makefile_path% 
-
-    desc:= "stop_container:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@docker container stop app `n`n"
-    FileAppend, %command%, %makefile_path% 
-
-    desc:= "save_image:`n"
-    FileAppend, %desc%, %makefile_path% 
-    command := "`t@docker save -o " image "_docker_image.zip " image "`n`n"
-    FileAppend, %command%, %makefile_path% 
+    AppendMakeShortcut("image", "Building Docker Image",  GREEN_CONSOLE_TEXT_COLOR, ["docker build . -t " image ], makefile_path)
+    AppendMakeShortcut("container", "Creating Docker Container",  CYAN_CONSOLE_TEXT_COLOR, ["docker run -d -p 8080:APP_PORT -name app " image], makefile_path)
+    AppendMakeShortcut("start_container", "Starting Container", GREEN_CONSOLE_TEXT_COLOR, ["docker container start app"], makefile_path)
+    AppendMakeShortcut("stop_container", "Stopping Container", RED_CONSOLE_TEXT_COLOR, ["docker container stop app"], makefile_path)
+    AppendMakeShortcut("save_image", "Saving Image to zip File", MAGENTA_CONSOLE_TEXT_COLOR, ["docker save -o " image "_docker_image.zip " image ], makefile_path)
 
 }
 
