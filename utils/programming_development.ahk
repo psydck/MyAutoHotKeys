@@ -243,7 +243,7 @@ SetupMake(project_folder, makefile, python_start_file, requirements_file, virtua
     AppendMakeShortcut("unstage", "Unstage", get_red_color(), ["git restore --staged $(files)"], makefile_path)
     AppendMakeShortcut("status", "Status", get_yellow_color(), ["git status"], makefile_path)
     AppendMakeShortcut("branch", "Branches", get_yellow_color(), ["git branch"], makefile_path)
-    AppendMakeShortcut("switch", "Switching Branch", get_yellow_color(), ["git branch $(branch)"], makefile_path)
+    AppendMakeShortcut("switch", "Switching Branch", get_yellow_color(), ["git checkout $(branch)"], makefile_path)
     
     ; requirements
     AppendMakeComment("PIP Packages", makefile_path)
