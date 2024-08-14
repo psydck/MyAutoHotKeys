@@ -181,10 +181,22 @@ SetupGit(project_folder){
     ; commands
     change_to_project_folder := "cd " project_folder
     initialize_git := "git init . "
-    create_dev_branch := "git branch dev"
-    create_test_branch := "git branch test"
-    create_build_branch := "git branch build"
-    RunTempCommandScript(project_folder, [change_to_project_folder, initialize_git, create_dev_branch, create_test_branch, create_build_branch])
+    RunTempCommandScript(project_folder, [change_to_project_folder, initialize_git])
+}
+
+GitCommitInitialState(project_folder){
+    git_path := project_folder "\"
+    
+    IgnoreFile("temp.ps1", project_folder, get_git_ignore())
+
+    ; commands
+    change_to_project_folder := "cd " project_folder
+    stage_files := "git add ."
+    commit := "git commit -m ""Initail Python Project Setup Commit"" "
+    create_dev_branch := "git branch Dev"
+    create_test_branch := "git branch Test"
+    create_build_branch := "git branch Build"
+    RunTempCommandScript(project_folder, [change_to_project_folder, initialize_git, stage_files, commit, create_dev_branch, create_test_branch, create_build_branch])
 }
 
 SetupMake(project_folder, makefile, python_start_file, requirements_file, virtualenv_folder){

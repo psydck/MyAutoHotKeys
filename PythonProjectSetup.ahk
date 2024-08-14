@@ -47,5 +47,6 @@ SendMode Input
     ; setup docker
     SetupDocker(project_folder, "dockerfile", requirements_file, python_start_file)
     
+    GitCommitInitialState(project_folder)
 return
 
