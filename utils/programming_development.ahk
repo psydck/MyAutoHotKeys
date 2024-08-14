@@ -130,7 +130,7 @@ GetAvailableUnsedUserDefinedPort(){
     
         isPortAvailablePort := StrLen(output) > 0
 
-        if (isPortAvailablePort) {
+        if (isPortAvailable) {
             return getAvailableUnsedUserDefinedPort
         }
         
