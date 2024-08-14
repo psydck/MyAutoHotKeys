@@ -112,6 +112,31 @@ CreateCommonFile(project_folder, file){
     FileAppend, , %file_path% 
 }
 
+; #G
+
+GetAvailableUnsedUserDefinedPort(){
+    while true {
+        
+        Random, getAvailableUnsedUserDefinedPort, 1024, 4951 
+    
+        queryPortUsage = "netstat -an | findstr ""%getAvailableUnsedUserDefinedPort%"" ""
+    
+        ; Execute queryPortUsage command via cmd.exe
+        shell := ComObjCreate("WScript.Shell")
+        exec := shell.Exec(ComSpec " /C " queryPortUsage)
+    
+        ; Read 
+        output = exec.StdOut.ReadAll()
+    
+        isPortAvailablePort := StrLen(output) > 0
+
+        if (isPortAvailablePort) {
+            return getAvailableUnsedUserDefinedPort
+        }
+        
+    }
+}
+
 ; #I
 
 IgnoreFile(ignore_file_or_folder, project_folder, ignore_file){
@@ -130,6 +155,8 @@ InstallRequirements(project_folder, requirements_file, virtualenv_folder){
     RunTempCommandScript(project_folder, [change_to_project_folder, activate_virtualenv, install_requirements])
 
 }
+
+; #R
 
 RunTempCommandScript(project_folder, commands){
     ; create temp installation script
@@ -164,7 +191,7 @@ SetupDocker(project_folder, dockerfile, requirements_file, python_start_file){
     command := "`nRUN pip install -r " requirements_file " `n"
     FileAppend, %command%, %dockerfile_path% 
 
-    command := "`nEXPOSE APP_PORT `n"
+    command := "`nEXPOSE " GetAvailableUnsedUserDefinedPort() " `n"
     FileAppend, %command%, %dockerfile_path% 
 
     command := "`nCMD [ ""python"", """ python_start_file """ ] `n"
