@@ -102,7 +102,7 @@ DownloadQualityVideo(video_start_path){
     }
 
     Prompt := RunWaitOne("yt-dlp.exe -F " url)
-    
+  
     InputBox, audio , Select Audio ID, %Prompt%, , 841, 600, , , , , 
     if (ErrorLevel = 1 or ErrorLevel = 2) {
         return
