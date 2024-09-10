@@ -61,4 +61,7 @@ else
     send, get-help %command% -examples | less {enter}
     Sleep, 30
 return
+<<<<<<< HEAD
 >>>>>>> 3670bb4 (initial commit, v2.1)
+=======
+>>>>>>> 2e8b146 (resolved conflicfs)
