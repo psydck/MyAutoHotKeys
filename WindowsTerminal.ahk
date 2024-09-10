@@ -23,13 +23,3 @@ else
     Sleep, 30
 return
 
-
-!x::
-InputBox, command, Powershell Help Examples, Get-Help ? -examples | less, , 250, 108, , , , 30, 
-if ( ErrorLevel = 1 or ErrorLevel = 2 or command = "")
-    return
-else
-    send, get-help %command% -examples | less {enter}
-    Sleep, 30
-return
-
