@@ -7,12 +7,9 @@
 ; AHK Version 1.1.37.02
 ; yt-dlp (ver. 2024.08.06) : https://github.com/yt-dlp/yt-dlp/releases
 ; ----------------------------------------------------------------------------------------------
-
+#SingleInstance, Force
 #include .\utils\ytdlp.ahk 
 #include .\constants\myYoutubeFolders.ahk ;contains { AUDIO_DIR, MAIN_DIR, VIDEO_DIR } as strings
-
-#SingleInstance, Force
-
 #IfWinActive, ahk_exe msedge.exe
 
 
