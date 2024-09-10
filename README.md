@@ -9,6 +9,15 @@ This project let you Automate the following:
 - Automate `Python` Project Creation Initialization via the [PythonProjectSetup.ahk](PythonProjectSetup.ahk)
 
 
+*New* (2024/09/10)
+
+- Generate `ssh-keygen` via the [PublicWifi.ahk](PublicWifi.ahk); just type anywhere `.sshkeygen` followed by a `space` or `enter`
+
+- Get your hosted wifi-password(s), via the [PublicWifi.ahk](PublicWifi.ahk); just type anywhere `.wifipass` followed by a `space` or `enter`
+
+- Get your wifi adapter info, via the [PublicWifi.ahk](PublicWifi.ahk); just type anywhere `.wifiinfo` followed by a `space` or `enter`
+
+
 ## Installation & Usage
 
 [YoutubeDownloader.ahk](YoutubeDownloader.ahk)
