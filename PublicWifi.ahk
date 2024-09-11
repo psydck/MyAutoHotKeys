@@ -63,6 +63,13 @@ return
     ShowExecutionResult(Title, RunWaitOne("ssh-keygen -t " encryption_type " -f """ output_path """ -N " (new_passphrase := SshPassphrase(Title))))
 return
 
+:ro:.sshcopyid::
+    ; download sshpass from https://github.com/xhcoding/sshpass-win32/releases/tag/v1.0.1
+    target_server_passpharse := SshTargetKey((Title := "Copy the SSH Key to the Server"), "C:\")
+    command := "sshpass.exe -f """ target_server_passpharse """ ssh-copy-id -i """ SshPublicKey(Title, "C:\") """ """ SshTargetServer(Title) """ "
+    ShowExecutionResult(Title, RunWaitOne(command))
+return
+
 
 RunWaitOne(command) {
     shell := ComObjCreate("WScript.Shell")
