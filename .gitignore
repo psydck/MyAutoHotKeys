@@ -5,3 +5,7 @@ MyInfo.ahk
 MyWifiNetwork.ahk
 constants/myYoutubeFolders.ahk
 
+.venv
+.pytest_cache
+tests/__pycache__
+test_data_stash
