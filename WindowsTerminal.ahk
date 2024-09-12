@@ -5,7 +5,7 @@
 ; https://www.linkedin.com/in/sir-afrika/
 ; https://github.com/psydck/MyAutoHotKeys
 ; AHK Version 1.1.37.02
-; ----------------------------------------------------------------------------------------------
+; -------------------------------------------
 
 #IfWinActive ahk_exe WindowsTerminal.exe
 
