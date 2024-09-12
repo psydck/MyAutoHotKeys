@@ -12,9 +12,8 @@ HISTORY_FILE := "history.csv"
 
 ; #A
 
-AppendDownloadHistoryFile(history_file_path, content) { 
-    appended_data := "`n" content
-    FileAppend, %appended_data%, %history_file_path%, utf-8
+AppendDownloadHistoryFile(history_file_path, content) {
+    FileAppend, %content%`n, %history_file_path%
 }
 
 ; #D
