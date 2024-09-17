@@ -9,7 +9,11 @@ This project let you Automate the following:
 - Automate `Python` Project Creation Initialization via the [PythonProjectSetup.ahk](PythonProjectSetup.ahk)
 
 
-*New* (2024/09/10)
+*New* (2024/09/18)
+
+- `scp` via the [PublicWifi.ahk](PublicWifi.ahk)
+
+2024/09/10
 
 - Generate `ssh-keygen` via the [PublicWifi.ahk](PublicWifi.ahk); just type anywhere `.sshkeygen` followed by a `space` or `enter`
 
