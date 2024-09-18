@@ -15,21 +15,9 @@ return
 
 
 !z::
-InputBox, command, Powershell Help, Get-Help ? | less, , 250, 108, , , , 30, 
-if ( ErrorLevel = 1 or ErrorLevel = 2 or command = "")
-    return
-else
-    send, get-help %command% | less {enter}
-    Sleep, 30
+InputBox, prompt, Manual Helper, Get-Help ? | less , , 171, 130, , , , 10, %prompt%
+if (ErrorLevel = 1 or ErrorLevel = 2 or prompt = "") 
+	return
+else 
+	send, man %prompt% | less {Enter}
 return
-
-
-!x::
-InputBox, command, Powershell Help Examples, Get-Help ? -examples | less, , 250, 108, , , , 30, 
-if ( ErrorLevel = 1 or ErrorLevel = 2 or command = "")
-    return
-else
-    send, get-help %command% -examples | less {enter}
-    Sleep, 30
-return
-

@@ -1,3 +1,5 @@
+; ssh-keygen
+
 SshFolder(AppTitle, start_path){
     Prompt := AppTitle " | Provide an Output Folder"
     FileSelectFolder, output_folder, %start_path%, 1, %Prompt%
@@ -60,4 +62,39 @@ ShowExecutionResult(AppTitle, outcome){
     else
         message := "Proccess was successful.`n`nResults:`n`n" outcome
     MsgBox, 0, %AppTitle%, %message%
+}
+
+; ssh-copy-id
+
+SshPublicKey(AppTitle, start_folder){
+    ; prompt the user to provide a public ssh key file
+    Prompt := AppTitle " | Please provide a public ssh key file"
+    defualt_public_ssh_key_filter := "ssh public key (*.pub)"
+    FileSelectFile, source_public_ssh_key_file, 3, %start_folder%, %Prompt%, %defualt_public_ssh_key_filter%
+    if (source_public_ssh_key_file = "")
+        ExitApp
+    return source_public_ssh_key_file
+}
+
+SshTargetServer(AppTitle){
+    ; prompt user to provide target server address
+    Prompt := "Please provide target host ip address"
+    defualt_target_server :=  "user@remote_host_ip_address"
+    InputBox, target_server, %AppTitle%, %Prompt%, , 500, 150, , , , , %defualt_target_server%
+    if (ErrorLevel){
+        ExitApp
+    } else if (StrLen(target_server) = 0){
+        ExitApp
+    }
+    return target_server
+}
+
+SshTargetKey(AppTitle, start_folder){
+    ; prompt the user to provide a public ssh key file
+    Prompt := AppTitle " | Please provide a private ssh key file"
+    defualt_ssh_key_filter := "ssh private key phrase (*.spk)"
+    FileSelectFile, source_ssh_key_file, 3, %start_folder%, %Prompt%, %defualt_ssh_key_filter%
+    if (source_public_ssh_key_file = "")
+        ExitApp
+    return source_ssh_key_file
 }

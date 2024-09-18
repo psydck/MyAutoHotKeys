@@ -63,6 +63,88 @@ return
     ShowExecutionResult(Title, RunWaitOne("ssh-keygen -t " encryption_type " -f """ output_path """ -N " (new_passphrase := SshPassphrase(Title))))
 return
 
+:ro:.sshcopyid::
+    ; download sshpass from https://github.com/xhcoding/sshpass-win32/releases/tag/v1.0.1
+    target_server_passpharse := SshTargetKey((Title := "Copy the SSH Key to the Server"), "C:\")
+    command := "sshpass.exe -f """ target_server_passpharse """ ssh-copy-id -i """ SshPublicKey(Title, "C:\") """ """ SshTargetServer(Title) """ "
+    ShowExecutionResult(Title, RunWaitOne(command))
+return
+
+:ro:.scp::
+    Title := "SCP | secure copy"
+    source_opt := ""
+    source := ""
+    Loop {
+        Prompt := "Provide a source?`nOptions:`n1. File, or`n2. Folder"
+        InputBox, source_opt, %Title%, %Prompt%, , 250, 250, , , , , 2 
+        source := ""
+        if (ErrorLevel) {
+            ExitApp
+        } else if (source_opt = 1) {
+            source_opt := ""
+            start_folder := "C:\"
+            Prompt := "Select a source file"
+            FileSelectFile, source, 3, %start_folder%, %Prompt%
+            if (ErrorLevel = 1) {
+                ExitApp
+            } else {
+                break
+            }
+        } else if (source_opt = 2) {
+            source_opt := " -r "
+            start_folder := "C:\"
+            Prompt := "Select a source folder"
+            FileSelectFolder, source, %start_path%, 1, %Prompt%
+            if (ErrorLevel = 1) {
+                ExitApp
+            } else {
+                break
+            }
+        } else {
+            continue
+        }
+    }
+    
+    destination := ""
+    Loop {
+        Prompt := "Provide a destination address?"
+        InputBox, destination, %Title%, %Prompt%, , 250, 150, , , , ,
+        if (ErrorLevel) {
+            ExitApp
+        } else if(StrLen(destination) = 0){
+            continue
+        } else {
+            break
+        }
+    }
+    
+    Prompt := "Provide a destination passphrase?`Options:`n1. passphrase`n2. passphrase file"
+    InputBox, passphrase_opt, %Title%, %Prompt%, , 250, 250, , , , ,
+    passphrase := ""
+    if (ErrorLevel) {
+        ExitApp
+    } else if(passphrase_opt = 1) {
+        passphrase_opt := "-p "
+        Prompt := "Provide a passphrase"
+        InputBox, passphrase, %Title%, %Prompt%, Hide, 250, 150, , , , ,
+        if (StrLen(passphrase) = 0) {
+            ExitApp 
+        }
+    } else if(passphrase_opt = 2) {
+        passphrase_opt := "-f "
+        start_folder := "C:\"
+        Prompt := "Provide a passphrase file"
+        FileSelectFile, passphrase, 3, %start_folder%, %Prompt%
+        if (ErrorLevel = 1) {
+            ExitApp
+        }
+    } else {
+        ExitApp
+    }
+
+    results := RunWaitOne("sshpass " passphrase_opt " " passphrase " scp -Cp " source_opt " """ source """ " destination )
+    MsgBox, 0, Scp, Results:`n%results%
+return
 
 RunWaitOne(command) {
     shell := ComObjCreate("WScript.Shell")
